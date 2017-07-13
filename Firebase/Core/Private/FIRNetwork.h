@@ -68,8 +68,19 @@
 
 /// Compresses and sends a POST request with the provided data to the URL. The session will be
 /// background session if usingBackgroundSession is YES. Otherwise, the POST session is default
+/// session. A Content-Type header of x-www-form-urlencoded is used. Returns a session ID or nil if
+// an error occurs.
+- (NSString *)postURL:(NSURL *)url
+                   payload:(NSData *)payload
+                     queue:(dispatch_queue_t)queue
+    usingBackgroundSession:(BOOL)usingBackgroundSession
+         completionHandler:(FIRNetworkCompletionHandler)handler;
+
+/// Compresses and sends a POST request with the provided data to the URL. The session will be
+/// background session if usingBackgroundSession is YES. Otherwise, the POST session is default
 /// session. Returns a session ID or nil if an error occurs.
 - (NSString *)postURL:(NSURL *)url
+               contentType:(NSString *)contentType
                    payload:(NSData *)payload
                      queue:(dispatch_queue_t)queue
     usingBackgroundSession:(BOOL)usingBackgroundSession

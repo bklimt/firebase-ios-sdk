@@ -97,6 +97,20 @@ static NSString *const kFIRNetworkLogTag = @"Firebase/Network";
                      queue:(dispatch_queue_t)queue
     usingBackgroundSession:(BOOL)usingBackgroundSession
          completionHandler:(FIRNetworkCompletionHandler)handler {
+    return [self postURL:url
+             contentType:kFIRNetworkContentTypeValue
+                 payload:payload
+                   queue:queue
+  usingBackgroundSession:usingBackgroundSession
+       completionHandler:handler];
+}
+
+- (NSString *)postURL:(NSURL *)url
+               contentType:(NSString *)contentType
+                   payload:(NSData *)payload
+                     queue:(dispatch_queue_t)queue
+    usingBackgroundSession:(BOOL)usingBackgroundSession
+         completionHandler:(FIRNetworkCompletionHandler)handler {
   if (!url.absoluteString.length) {
     [self handleErrorWithCode:FIRErrorCodeNetworkInvalidURL queue:queue withHandler:handler];
     return nil;
@@ -135,7 +149,7 @@ static NSString *const kFIRNetworkLogTag = @"Firebase/Network";
   [request setValue:postLength forHTTPHeaderField:kFIRNetworkContentLengthKey];
   request.HTTPBody = compressedData;
   request.HTTPMethod = kFIRNetworkPOSTRequestMethod;
-  [request setValue:kFIRNetworkContentTypeValue forHTTPHeaderField:kFIRNetworkContentTypeKey];
+  [request setValue:contentType forHTTPHeaderField:kFIRNetworkContentTypeKey];
   [request setValue:kFIRNetworkContentCompressionValue
       forHTTPHeaderField:kFIRNetworkContentCompressionKey];
 
